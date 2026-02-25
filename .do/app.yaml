@@ -1,0 +1,41 @@
+name: funeral-management-app
+region: nyc
+
+databases:
+  - name: db
+    engine: PG
+    version: "16"
+    production: false
+
+services:
+  - name: web
+    environment_slug: node-js
+    github:
+      repo: YOUR_GITHUB_OWNER/YOUR_REPO
+      branch: main
+      deploy_on_push: true
+    source_dir: /
+    http_port: 3000
+    instance_count: 1
+    instance_size_slug: basic-xxs
+    build_command: npx prisma generate && npm run build
+    run_command: npx prisma migrate deploy && npm run start
+    envs:
+      - key: NODE_ENV
+        value: production
+        type: GENERAL
+      - key: DATABASE_URL
+        value: ${db.DATABASE_URL}
+        type: GENERAL
+      - key: SHOPIFY_API_KEY
+        value: YOUR_SHOPIFY_API_KEY
+        type: GENERAL
+      - key: SHOPIFY_API_SECRET
+        value: YOUR_SHOPIFY_API_SECRET
+        type: SECRET
+      - key: SCOPES
+        value: write_products,write_files
+        type: GENERAL
+      - key: SHOPIFY_APP_URL
+        value: https://your-app.ondigitalocean.app
+        type: GENERAL
