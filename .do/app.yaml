@@ -1,12 +1,6 @@
 name: funeral-management-app
 region: nyc
 
-databases:
-  - name: db
-    engine: PG
-    version: "16"
-    production: false
-
 services:
   - name: web
     environment_slug: node-js
@@ -23,19 +17,25 @@ services:
     envs:
       - key: NODE_ENV
         value: production
+        scope: RUN_TIME
         type: GENERAL
       - key: DATABASE_URL
-        value: ${db.DATABASE_URL}
+        value: "file:./sqlite.db"
+        scope: RUN_TIME
         type: GENERAL
       - key: SHOPIFY_API_KEY
         value: YOUR_SHOPIFY_API_KEY
+        scope: RUN_TIME
         type: GENERAL
       - key: SHOPIFY_API_SECRET
         value: YOUR_SHOPIFY_API_SECRET
+        scope: RUN_TIME
         type: SECRET
       - key: SCOPES
         value: write_products,write_files
+        scope: RUN_TIME
         type: GENERAL
       - key: SHOPIFY_APP_URL
         value: https://your-app.ondigitalocean.app
+        scope: RUN_TIME
         type: GENERAL
